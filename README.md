@@ -1,6 +1,6 @@
 # Useless SenseTalk Scripts
 
-Scripts that are intentionally simple and "useless" in that they do not serve as functional snippets, and rather are fun and often humorous examples of how to program in SenseTalk.
+Scripts that are intentionally simple and "useless" in that they do not serve as functional snippets; rather they are fun and often humorous examples of how to program in SenseTalk.
 
 ## Scripts
 
