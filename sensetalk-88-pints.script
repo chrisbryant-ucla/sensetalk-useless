@@ -1,0 +1,86 @@
+-- sensetalk-88-pints.script
+--
+-- Chris Bryant <chrisbryant@ucla.edu>
+--
+-- ---------------------------------------------------------------------------
+-- A small SenseTalk demonstration inspired by the classic "99 Bottles of Beer"
+-- programming exercise. Instead of bottles of beer, this script logs verses
+-- about 88 pints of Guinness at the pub. There are 88 pints in a 50-liter keg.
+--
+-- The script is intentionally simple: it demonstrates variables, a countdown
+-- repeat loop, conditional singular/plural wording, log output, and explicit
+-- loop termination.
+
+-- Store the starting number of pints in a named variable.
+-- Keeping this as a variable makes the countdown value easy to identify and
+-- would make it easy to change the song length later.
+put 88 into pints
+
+-- Count down from the starting number of pints to 1.
+--
+-- "repeat with kegGuinness = pints down to 1" creates a loop variable named
+-- kegGuinness. On the first pass it is 88, then 87, then 86, and so on until
+-- it reaches 1.
+repeat with kegGuinness = pints down to 1
+
+	-- Copy the current loop value into a semantically named variable for the
+	-- current verse. This keeps the later log statements easy to read.
+	put kegGuinness into thisGuinness
+
+	-- Calculate how many pints will remain after one pint is passed around.
+	-- For example, when thisGuinness is 88, anotherGuinness becomes 87.
+	put kegGuinness - 1 into anotherGuinness
+
+	-- Prepare the singular/plural label for the current pint count.
+	-- Start with an empty value so the variable is always initialized before
+	-- the conditional code assigns the final text.
+	put empty into pintGuinness
+
+	-- Use "pints" for any current count greater than 1.
+	-- Use "pint" only when the current count is exactly 1.
+	if thisGuinness >1 then put "pints" into pintGuinness else put "pint" into pintGuinness
+
+	-- Prepare the singular/plural label for the remaining pint count.
+	-- This variable is separate because the remaining count can differ from
+	-- the current count by one, so it may need a different word.
+	put empty into anotherGuinnessPlease
+
+	-- Use "pints" when more than one pint remains.
+	if anotherGuinness >1 then put "pints" into anotherGuinnessPlease
+
+	-- Use "pint" when exactly one pint remains.
+	else if anotherGuinness = 1 then put "pint" into anotherGuinnessPlease
+
+		-- Use "pints" for zero pints so the final countdown line reads
+		-- "0 pints" rather than "0 pint".
+		else put "pints" into anotherGuinnessPlease
+
+	-- Log the first line of the verse.
+	--
+	-- The && operator joins the surrounding values with spaces, which keeps the
+	-- generated song text readable without manually placing a space in every
+	-- quoted string.
+	log thisGuinness && pintGuinness && "of Guinness at the pub,"  && thisGuinness && pintGuinness && "of Guinness."
+
+	-- Log the second line of the verse, using the count that remains after one
+	-- pint is passed around.
+	log "Tap the keg and pass one around," && anotherGuinness && anotherGuinnessPlease && "of Guinness at the pub."
+
+	-- Log a blank line after each verse so the output is easier to scan.
+	log empty
+
+	-- When the loop reaches the final pint, add the closing two lines of the
+	-- song and then exit the loop immediately.
+	--
+	-- This check is placed after the normal verse output so the script first
+	-- prints the "1 pint" verse and then prints the reset line back to 88.
+	if kegGuinness  = 1 then
+		log "No more pints of Guinness at the pub, no more pints of Guinness."
+		log "Go 'round the back and roll out a keg, 88 pints of Guinness at the pub!"
+
+		-- Stop the repeat loop now that the closing verse has been printed.
+		exit repeat
+	end if
+
+-- End of the countdown loop.
+end repeat
